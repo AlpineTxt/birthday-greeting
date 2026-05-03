@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="music-control" id="music-toggle">🎵</div>
+    <audio id="bg-music" loop preload="auto" crossorigin="anonymous">
+        <source src="https://raw.githubusercontent.com/robsonjunior/happy-birthday/master/happy-birthday.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="scene1" class="scene">
+        <div class="top-flowers">🌸 🌼 🌺 🌻 🌹 🌷</div>
+        <div class="flower-garden">
+            <div class="flower" style="left: 10%; animation-duration: 12s;">🌸</div>
+            <div class="flower" style="left: 30%; animation-duration: 18s; animation-delay: 2s;">🌼</div>
+            <div class="flower" style="left: 50%; animation-duration: 15s; animation-delay: 5s;">🌺</div>
+            <div class="flower" style="left: 70%; animation-duration: 20s; animation-delay: 1s;">🌻</div>
+            <div class="flower" style="left: 90%; animation-duration: 14s; animation-delay: 3s;">🌹</div>
+        </div>
+        <div class="plants left-plants">🌿🌻</div>
+        <div class="plants right-plants">🌷🌿</div>
+
+        <div class="greeting-container bounce-in">
+            <h1>Happy Birthday! 🎂</h1>
+            <div class="bear-character">🐻</div>
+        </div>
+
+        <div class="momo-wrapper bounce-in-delay">
+            <img src="delicious_momos.png" alt="Delicious Momos" class="momo-img">
+        </div>
+
+        <button id="thank-you-btn" class="primary-btn bounce-in-delay">Thank You</button>
+    </div>
+
+    <div id="scene2" class="scene hidden">
+        <div class="top-flowers">🌷 🌹 🌻 🌺 🌼 🌸</div>
+        <div class="side-flowers left-side">🌸<br>🌼<br>🌺</div>
+        <div class="side-flowers right-side">🌻<br>🌹<br>🌷</div>
+        <div class="flower-garden">
+            <div class="flower" style="left: 20%; animation-duration: 10s;">🌹</div>
+            <div class="flower" style="left: 40%; animation-duration: 16s; animation-delay: 4s;">🌷</div>
+            <div class="flower" style="left: 60%; animation-duration: 12s; animation-delay: 6s;">🌻</div>
+            <div class="flower" style="left: 80%; animation-duration: 14s; animation-delay: 2s;">🌺</div>
+        </div>
+        <div class="envelope-wrapper">
+            <div id="envelope" class="envelope">
+                <div class="letter">
+                    <p class="letter-text">Happy Birthday.<br><br>Reply karne ki zarurat nahi — this is just a simple wish, not to start a conversation.<br><br>i hope life peaceful rhe and enjoy kr rhe<br>Take care<br><br>— Tata</p>
+                    <button id="good-luck-btn" class="primary-btn">Good Luck!</button>
+                </div>
+                <div class="left-fold"></div>
+                <div class="right-fold"></div>
+                <div class="pocket"></div>
+                <div class="flap"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

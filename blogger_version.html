@@ -1,0 +1,615 @@
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+
+<div id="birthday-app">
+    <style>
+        #birthday-app {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            height: 100vh;
+            min-height: 600px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #birthday-app * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #birthday-app .scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #birthday-app .hidden {
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        #birthday-app .greeting-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+
+        #birthday-app h1 {
+            font-size: 3rem;
+            color: #4a4a4a;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #birthday-app .character-img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        #birthday-app .primary-btn {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Outfit', sans-serif;
+            position: absolute;
+            bottom: 15%;
+            z-index: 10;
+        }
+
+        #birthday-app .primary-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 154, 158, 0.6);
+        }
+
+        #birthday-app #thank-you-btn {
+            background: #fdf5e6;
+            color: #5d4037;
+            width: 170px;
+            height: 150px;
+            border-radius: 55% 55% 48% 48% / 85% 85% 55% 55%;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            bottom: 25%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-align: center;
+            line-height: 1;
+            padding: 15px;
+            /* Advanced Photorealistic Shading */
+            box-shadow: 
+                0 15px 30px rgba(0,0,0,0.12),
+                inset 0 -15px 25px rgba(0,0,0,0.04),
+                inset 0 8px 20px rgba(255,255,255,1),
+                inset 0 -2px 10px rgba(0,0,0,0.02);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: visible;
+        }
+
+        /* The characteristic top "pinch" */
+        #birthday-app #thank-you-btn::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 30px;
+            background: #fdf5e6;
+            border-radius: 50%;
+            box-shadow: 
+                0 3px 6px rgba(0,0,0,0.05),
+                inset 0 -4px 8px rgba(0,0,0,0.02);
+            z-index: 2;
+        }
+
+        /* Detailed fold lines using conic gradients */
+        #birthday-app #thank-you-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            background: 
+                repeating-conic-gradient(
+                    from 170deg at 50% -5%,
+                    transparent 0deg 18deg,
+                    rgba(0,0,0,0.02) 19deg 20deg,
+                    transparent 21deg 360deg
+                );
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        #birthday-app #thank-you-btn:hover {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        #birthday-app #thank-you-btn:hover {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.1); opacity: 0; }
+            60% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        #birthday-app .bounce-in {
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        #birthday-app .bounce-in-delay {
+            opacity: 0;
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s forwards;
+        }
+
+        /* Envelope Styles */
+        #birthday-app .envelope-wrapper {
+            position: relative;
+            width: 320px;
+            height: 220px;
+        }
+
+        #birthday-app .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #e8e8e8;
+            border-radius: 5px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        #birthday-app .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #f0f0f0;
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out, z-index 0.6s;
+            z-index: 5;
+        }
+
+        #birthday-app .pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-bottom: 120px solid #dcdcdc;
+            z-index: 4;
+        }
+
+        #birthday-app .left-fold {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 110px solid transparent;
+            border-bottom: 110px solid transparent;
+            border-left: 160px solid #e4e4e4;
+            z-index: 3;
+        }
+
+        #birthday-app .right-fold {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 110px solid transparent;
+            border-bottom: 110px solid transparent;
+            border-right: 160px solid #e4e4e4;
+            z-index: 3;
+        }
+
+        #birthday-app .letter {
+            position: absolute;
+            background: #fff;
+            width: 280px;
+            height: 200px;
+            left: 20px;
+            top: 10px;
+            border-radius: 5px;
+            z-index: 2;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        #birthday-app .letter-text {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.4;
+            margin-top: 5px;
+        }
+
+        #birthday-app .envelope.open .flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        #birthday-app .envelope.open .letter {
+            animation: slideUpAndOut 1.5s forwards;
+        }
+
+        @keyframes slideUpAndOut {
+            0% { transform: translateY(0); z-index: 2; }
+            40% { transform: translateY(-150px); z-index: 2; }
+            50% { transform: translateY(-150px); z-index: 6; }
+            100% { transform: translateY(-80px); z-index: 6; }
+        }
+
+        #birthday-app #good-luck-btn {
+            position: relative;
+            font-size: 1rem;
+            padding: 8px 24px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out 1.5s;
+            background: linear-gradient(45deg, #84fab0 0%, #8fd3f4 100%);
+            color: #fff;
+            bottom: auto;
+        }
+
+        #birthday-app .envelope.open #good-luck-btn {
+            opacity: 1;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 480px) {
+            #birthday-app h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+            #birthday-app .greeting-container {
+                padding: 1.5rem;
+                width: 90%;
+            }
+            #birthday-app .character-img {
+                width: 180px;
+                height: 180px;
+            }
+            #birthday-app .envelope-wrapper {
+                transform: scale(0.85);
+            }
+            #birthday-app .primary-btn {
+                padding: 10px 24px;
+                font-size: 1rem;
+            }
+        }
+
+        /* NEW ADDITIONS: Bear, Plants, Momos */
+        #birthday-app .bear-character {
+            font-size: 6rem;
+            line-height: 1;
+            margin: 1rem 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        #birthday-app .plants {
+            position: absolute;
+            bottom: 0;
+            font-size: 5rem;
+            transform-origin: bottom center;
+            z-index: 1;
+        }
+        #birthday-app .left-plants {
+            left: 5%;
+            animation: swingLeft 4s ease-in-out infinite;
+        }
+        #birthday-app .right-plants {
+            right: 5%;
+            animation: swingRight 4s ease-in-out infinite;
+        }
+
+        @keyframes swingLeft {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(10deg); }
+        }
+        @keyframes swingRight {
+            0%, 100% { transform: rotate(5deg); }
+            50% { transform: rotate(-10deg); }
+        }
+
+        #birthday-app .momo-wrapper {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            width: 220px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        #birthday-app .momo-img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border: 3px solid white;
+        }
+
+        /* Flower Decorations */
+        #birthday-app .flower-garden {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        #birthday-app .flower {
+            position: absolute;
+            font-size: 2rem;
+            animation: drift 15s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes drift {
+            0% { transform: translateY(110vh) rotate(0deg); }
+            100% { transform: translateY(-10vh) rotate(360deg); }
+        }
+
+        #birthday-app .top-flowers {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 2.5rem;
+            z-index: 5;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        #birthday-app .side-flowers {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #birthday-app .left-side { left: 20px; }
+        #birthday-app .right-side { right: 20px; }
+
+        /* Music Control */
+        #birthday-app .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+        #birthday-app .music-control:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+
+    <div class="music-control" id="music-toggle">🎵</div>
+    <audio id="bg-music" loop preload="auto" crossorigin="anonymous">
+        <source src="https://raw.githubusercontent.com/robsonjunior/happy-birthday/master/happy-birthday.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="scene1" class="scene">
+        <div class="top-flowers">🌸 🌼 🌺 🌻 🌹 🌷</div>
+        <div class="flower-garden">
+            <div class="flower" style="left: 10%; animation-duration: 12s;">🌸</div>
+            <div class="flower" style="left: 30%; animation-duration: 18s; animation-delay: 2s;">🌼</div>
+            <div class="flower" style="left: 50%; animation-duration: 15s; animation-delay: 5s;">🌺</div>
+            <div class="flower" style="left: 70%; animation-duration: 20s; animation-delay: 1s;">🌻</div>
+            <div class="flower" style="left: 90%; animation-duration: 14s; animation-delay: 3s;">🌹</div>
+        </div>
+        <div class="plants left-plants">🌿🌻</div>
+        <div class="plants right-plants">🌷🌿</div>
+
+        <div class="greeting-container bounce-in">
+            <h1>Happy Birthday! 🎂</h1>
+            <div class="bear-character">🐻</div>
+        </div>
+
+        <div class="momo-wrapper bounce-in-delay">
+            <!-- REPLACE THE SRC BELOW WITH YOUR UPLOADED MOMO IMAGE URL -->
+            <img src="REPLACE_ME_WITH_MOMO_IMAGE_URL" alt="Delicious Momos" class="momo-img">
+        </div>
+
+        <button id="thank-you-btn" class="primary-btn bounce-in-delay">Thank You</button>
+    </div>
+
+    <div id="scene2" class="scene hidden">
+        <div class="top-flowers">🌷 🌹 🌻 🌺 🌼 🌸</div>
+        <div class="side-flowers left-side">🌸<br>🌼<br>🌺</div>
+        <div class="side-flowers right-side">🌻<br>🌹<br>🌷</div>
+        <div class="flower-garden">
+            <div class="flower" style="left: 20%; animation-duration: 10s;">🌹</div>
+            <div class="flower" style="left: 40%; animation-duration: 16s; animation-delay: 4s;">🌷</div>
+            <div class="flower" style="left: 60%; animation-duration: 12s; animation-delay: 6s;">🌻</div>
+            <div class="flower" style="left: 80%; animation-duration: 14s; animation-delay: 2s;">🌺</div>
+        </div>
+        <div class="envelope-wrapper">
+            <div id="envelope" class="envelope">
+                <div class="letter">
+                    <p class="letter-text">Happy Birthday.<br><br>Reply karne ki zarurat nahi — this is just a simple wish, not to start a conversation.<br><br>i hope life peaceful rhe and enjoy kr rhe<br>Take care<br><br>— Tata</p>
+                    <button id="good-luck-btn" class="primary-btn">Good Luck!</button>
+                </div>
+                <div class="left-fold"></div>
+                <div class="right-fold"></div>
+                <div class="pocket"></div>
+                <div class="flap"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const thankYouBtn = document.getElementById('thank-you-btn');
+            const scene1 = document.getElementById('scene1');
+            const scene2 = document.getElementById('scene2');
+            const envelope = document.getElementById('envelope');
+            const goodLuckBtn = document.getElementById('good-luck-btn');
+
+            const music = document.getElementById('bg-music');
+            const musicToggle = document.getElementById('music-toggle');
+            let isMusicPlaying = false;
+
+            function toggleMusic() {
+                if (isMusicPlaying) {
+                    music.pause();
+                    musicToggle.innerText = '🔇';
+                    isMusicPlaying = false;
+                } else {
+                    music.play().then(() => {
+                        musicToggle.innerText = '🎵';
+                        isMusicPlaying = true;
+                    }).catch(e => {
+                        console.log("Music blocked, trying reload...");
+                        music.load();
+                        music.play().then(() => {
+                            musicToggle.innerText = '🎵';
+                            isMusicPlaying = true;
+                        });
+                    });
+                }
+            }
+
+            musicToggle.addEventListener('click', toggleMusic);
+
+            function triggerFeedback() {
+                if (navigator.vibrate) navigator.vibrate(50);
+                try {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) {
+                        const ctx = new AudioContext();
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(600, ctx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.1);
+                        gain.gain.setValueAtTime(0.5, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                        osc.start(ctx.currentTime);
+                        osc.stop(ctx.currentTime + 0.1);
+                    }
+                } catch (e) {}
+            }
+
+            let clickCount = 0;
+
+            thankYouBtn.addEventListener('click', () => {
+                triggerFeedback();
+                clickCount++;
+
+                if (clickCount === 1 && !isMusicPlaying) {
+                    toggleMusic();
+                }
+
+                if (clickCount >= 1 && clickCount <= 3) {
+                    const btnWidth = thankYouBtn.offsetWidth;
+                    const btnHeight = thankYouBtn.offsetHeight;
+                    
+                    const maxX = window.innerWidth - btnWidth - 40;
+                    const maxY = window.innerHeight - btnHeight - 40;
+                    
+                    const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+                    const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+
+                    thankYouBtn.style.position = 'fixed';
+                    thankYouBtn.style.left = `${randomX}px`;
+                    thankYouBtn.style.top = `${randomY}px`;
+                    thankYouBtn.style.bottom = 'auto';
+                } else if (clickCount === 4) {
+                    thankYouBtn.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    thankYouBtn.style.left = '-300px'; 
+                    thankYouBtn.style.opacity = '0';
+
+                    setTimeout(() => {
+                        thankYouBtn.style.display = 'none';
+                        scene1.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            scene1.classList.add('hidden');
+                            scene2.classList.remove('hidden');
+                            
+                            setTimeout(() => {
+                                envelope.classList.add('open');
+                            }, 500);
+                        }, 500);
+                    }, 400);
+                }
+            });
+
+            goodLuckBtn.addEventListener('click', () => {
+                triggerFeedback();
+                alert("You're welcome! Have a wonderful day!");
+            });
+        });
+    </script>
+</div>
